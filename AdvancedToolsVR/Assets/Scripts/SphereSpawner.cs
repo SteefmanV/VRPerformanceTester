@@ -12,35 +12,32 @@ public class SphereSpawner : MonoBehaviour
     [SerializeField] private GameObject _sphere10k = null;
     [SerializeField] private GameObject _sphere100k = null;
 
-    [SerializeField] private Vector3Int _gridSize = new Vector3Int();
-    [SerializeField] private Sphere _sphereType = Sphere.s100;
+    [Header("Spawner Settings:")]
     [SerializeField] private float _objectOffset = 10;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space)) generateSphereGrid();
-    }
-    private void generateSphereGrid()
-    {
-        clean();
 
-        for (int x = 0; x < _gridSize.x; ++x)
+    public bool GenerateSphereGrid(Vector3Int pGridSize, Sphere pType)
+    {
+        Vector3 centerOffset = new Vector3(pGridSize.x, pGridSize.y, pGridSize.z) * _objectOffset  * 0.5f;
+        for (int x = 0; x < pGridSize.x; ++x)
         {
-            for (int y = 0; y < _gridSize.x; ++y)
+            for (int y = 0; y < pGridSize.y; ++y)
             {
-                for (int z = 0; z < _gridSize.x; ++z)
+                for (int z = 0; z < pGridSize.z; ++z)
                 {
-                    spawnSphere(_sphereType, new Vector3(x , y, z) * _objectOffset);
+                    spawnSphere(pType, (new Vector3(x, y, z) * _objectOffset) - centerOffset);
                 }
             }
         }
+
+        return true;
     }
-    
+
 
     private void spawnSphere(Sphere sphere, Vector3 position)
     {
         GameObject sphereObject = null;
-        switch(sphere)
+        switch (sphere)
         {
             case Sphere.s100:
                 sphereObject = _sphere100;
@@ -59,11 +56,25 @@ public class SphereSpawner : MonoBehaviour
         Instantiate(sphereObject, position, Quaternion.identity, transform);
     }
 
-    private void clean()
+    public void Clean()
     {
-        foreach(Transform trans in transform)
+        foreach (Transform trans in transform)
         {
             Destroy(trans.gameObject);
         }
+    }
+
+
+    public int GetTrisCount()
+    {
+        int trisCount = 0;
+
+        MeshFilter[] meshFilters = FindObjectsOfType<MeshFilter>();
+        foreach (MeshFilter meshFilter in meshFilters)
+        {
+            trisCount += meshFilter.mesh.triangles.Length / 3; // Devide by 3 because 1 triangle is made up of 3 ints
+        }
+
+        return trisCount;
     }
 }
