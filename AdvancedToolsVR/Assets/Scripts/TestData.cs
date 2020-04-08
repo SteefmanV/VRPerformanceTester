@@ -8,7 +8,7 @@ public struct TestData
     public string testName;
     public string testDescription;
     public int testDurationSeconds;
-    public SphereSpawner.Sphere type;
+    public ObjectSpawner.ObjectType type;
     public Vector3Int gridSize;
 
     // This will be automatically generates 

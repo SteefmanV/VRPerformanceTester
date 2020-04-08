@@ -2,19 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TestRunner : MonoBehaviour
 {
-    [SerializeField] private SphereSpawner _sphereSpawner = null;
+    [SerializeField] private ObjectSpawner _objectSpawner = null;
     [SerializeField] private PerformanceLogger _performanceLogger = null;
+    [SerializeField] private TextMeshProUGUI _testRunningText = null;
 
     [Header("Test information")]
     [SerializeField] private string _currentRunningTest = "";
     [SerializeField] private float secondsUntilTestComplete = 0;
-    private Queue<TestData> testQueue = new Queue<TestData>();
-
-    private List<TestData> testResults = new List<TestData>();
     [SerializeField] private bool _testRunning;
+
+    private Queue<TestData> _testQueue = new Queue<TestData>();
+    private List<TestData> _testResults = new List<TestData>();
+
+    private int _totalTests = 0;
 
     void Start()
     {
@@ -24,10 +28,10 @@ public class TestRunner : MonoBehaviour
             testDescription = "Simple test with a few small objects",
             testDurationSeconds = 15,
             gridSize = new Vector3Int(10, 10, 10),
-            type = SphereSpawner.Sphere.s100
+            type = ObjectSpawner.ObjectType.s100
         };
 
-        testQueue.Enqueue(lowTest);
+        _testQueue.Enqueue(lowTest);
 
         TestData lowWithALotOfObject = new TestData()
         {
@@ -35,10 +39,10 @@ public class TestRunner : MonoBehaviour
             testDescription = "A LOT OF small spheres",
             testDurationSeconds = 15,
             gridSize = new Vector3Int(20, 20, 20),
-            type = SphereSpawner.Sphere.s100
+            type = ObjectSpawner.ObjectType.s100
         };
 
-        testQueue.Enqueue(lowWithALotOfObject);
+        _testQueue.Enqueue(lowWithALotOfObject);
 
         TestData mediumTest = new TestData()
         {
@@ -46,9 +50,9 @@ public class TestRunner : MonoBehaviour
             testDescription = "Medium test: 10,10,10 with 10k Spheres",
             testDurationSeconds = 15,
             gridSize = new Vector3Int(10, 10, 10),
-            type = SphereSpawner.Sphere.s100k
+            type = ObjectSpawner.ObjectType.s10k
         };
-        testQueue.Enqueue(mediumTest);
+        _testQueue.Enqueue(mediumTest);
 
         TestData hardcoreTest = new TestData()
         {
@@ -56,12 +60,14 @@ public class TestRunner : MonoBehaviour
             testDescription = "Hardcore test: 20,10,10 with 100k Spheres",
             testDurationSeconds = 15,
             gridSize = new Vector3Int(20, 10, 10),
-            type = SphereSpawner.Sphere.s100k
+            type = ObjectSpawner.ObjectType.s100k
         };
 
-        testQueue.Enqueue(hardcoreTest);
+        _testQueue.Enqueue(hardcoreTest);
 
-        StartCoroutine(StartRunningTests());
+
+        _totalTests = _testQueue.Count;
+        RunNextTest();
     }
 
     private void Update()
@@ -70,52 +76,52 @@ public class TestRunner : MonoBehaviour
     }
 
 
-    private IEnumerator StartRunningTests()
+    private void RunNextTest()
     {
         Debug.Log("<color=green> Test Started running!</color>");
 
-
-        secondsUntilTestComplete = 0;
-        foreach (TestData test in testQueue)
+        if (_testQueue.Count > 0)
         {
-            secondsUntilTestComplete += test.testDurationSeconds;
+            StartCoroutine(runTest(_testQueue.Dequeue()));
+            _testRunningText.text = "<color=orange>Test Running - " + (_totalTests - _testQueue.Count) + " / " + _totalTests + "</color>";
+            Debug.Log("<color=yellow>" + _testQueue.Count + " more tests in queue </color>");
+            return;
         }
 
-        while (testQueue.Count > 0)
-        {
-            _testRunning = true;
-            StartCoroutine(runTest(testQueue.Dequeue()));
-            Debug.Log("<color=yellow>" + testQueue.Count + " more testsin queue </color>");
-            yield return new WaitWhile(() => _testRunning);
-        }
+        LogExporter.ExportLogToExcel(_testResults);
 
-        LogExporter.ExportLogToExcel(testResults);
-
+        _testRunningText.text = "<color=green> Done testing!</color>";
         Debug.Log("<color=green> All tests are done! </color>");
     }
 
 
     private IEnumerator runTest(TestData pTestData)
     {
-        _sphereSpawner.Clean();
+        _objectSpawner.Clean();
         yield return null;
-        // Generate grid of spheres and save the triangle & object count
-        yield return new WaitUntil(() => _sphereSpawner.GenerateSphereGrid(pTestData.gridSize, pTestData.type));
-        yield return new WaitForSeconds(5); // Give it some extra time to load
-        pTestData.trisCount = _sphereSpawner.GetTrisCount();
+        Debug.Log("<color=yellow> Preparing new text... </color>");
+
+        yield return new WaitUntil(() => _objectSpawner.GenerateObjectGrid(pTestData.gridSize, pTestData.type)); // Generate object grid
+
+        pTestData.trisCount = _objectSpawner.GetTrisCount();
         pTestData.objectCount = pTestData.gridSize.x * pTestData.gridSize.y * pTestData.gridSize.z;
+        secondsUntilTestComplete += pTestData.testDurationSeconds;
         _currentRunningTest = pTestData.testDescription;
+
+        yield return new WaitForSeconds(10); // Give it some extra time to load
         Debug.Log("<color=yellow> Next test: " + pTestData.testDescription +"</color>");
-        yield return null;
 
-
-        _performanceLogger.StartRecording(); // Start recording the fps
+        // Recording test
+        _testRunning = true;
+        _performanceLogger.StartRecording();
         yield return new WaitForSeconds(pTestData.testDurationSeconds);
-        _performanceLogger.StopRecording();// Stop recording when test done
+        _performanceLogger.StopRecording();
+        _testRunning = false;
 
         // Save test results
         pTestData.frameData = _performanceLogger.getFpsLog();
-        testResults.Add(pTestData);
-        _testRunning = false;
+        _testResults.Add(pTestData);
+
+        RunNextTest();
     }
 }
