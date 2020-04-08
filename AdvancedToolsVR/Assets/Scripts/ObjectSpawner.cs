@@ -20,6 +20,7 @@ public class ObjectSpawner : MonoBehaviour
     public bool GenerateObjectGrid(Vector3Int pGridSize, ObjectType pType)
     {
         Vector3 centerOffset = new Vector3(pGridSize.x, pGridSize.y, pGridSize.z) * _objectOffset  * 0.5f;
+
         for (int x = 0; x < pGridSize.x; ++x)
         {
             for (int y = 0; y < pGridSize.y; ++y)
@@ -60,7 +61,8 @@ public class ObjectSpawner : MonoBehaviour
         Instantiate(objectType, pPositoin, Quaternion.identity, transform);
     }
 
-    public void Clean()
+
+    public void CleanObjects()
     {
         foreach (Transform trans in transform)
         {

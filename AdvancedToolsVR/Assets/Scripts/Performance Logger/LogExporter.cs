@@ -9,18 +9,21 @@ using UnityEngine;
 
 public static class LogExporter
 {
-    public static void ExportLogToExcel(List<TestData> pLog)
+    /// <summary>
+    /// Export multiple test to an Excel sheet, each test gets its own worksheet
+    /// </summary>
+    public static void ExportTestDataToExcel(List<TestData> pLog)
     {
-        DataSet ds = new DataSet("Frame Logging Set");
+        DataSet dataSet = new DataSet("Test Results");
 
         foreach (TestData data in pLog)
         {
-            DataTable dt = logToTable(data);
-            ds.Tables.Add(dt);
+            DataTable dataTable = logToTable(data);
+            dataSet.Tables.Add(dataTable);
         }
 
-        string fileName = "FpsLog_" + DateTime.Now.ToString("dd-MM-yyyy-h-mm").ToString() + ".xls";
-        DataSetHelper.CreateWorkbook(fileName, ds);
+        string fileName = "TestResults_" + DateTime.Now.ToString("dd-MM-yyyy-h-mm").ToString() + ".xls";
+        DataSetHelper.CreateWorkbook(fileName, dataSet);
     }
 
 
@@ -50,15 +53,14 @@ public static class LogExporter
         addDescriptionRow(table, "Grid size: ", pData.gridSize.ToString());
         addDescriptionRow(table, "Triangle count: ", pData.trisCount.ToString());
         addDescriptionRow(table, "Object count: ", pData.objectCount.ToString());
+        addDescriptionRow(table, "Tris / Object: ", (pData.trisCount / pData.objectCount).ToString());
 
         return table;
     }
 
 
-    /// <summary>
-    /// Sorry for this lazy hack... 
-    /// The Excel Library doesn't support DBNull so I've added default values
-    /// </summary>
+     /* Sorry for this lazy hack... 
+     * The Excel Library doesn't support DBNull so I've added default values. */
     private static void addDescriptionRow(DataTable Table, string col1, string col2)
     {
         DataRow row = Table.NewRow();

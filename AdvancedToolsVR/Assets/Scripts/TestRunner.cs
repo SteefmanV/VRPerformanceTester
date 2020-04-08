@@ -26,29 +26,37 @@ public class TestRunner : MonoBehaviour
         {
             testName = "SimpleTest",
             testDescription = "Simple test with a few small objects",
-            testDurationSeconds = 15,
+            testDurationSeconds = 10,
             gridSize = new Vector3Int(10, 10, 10),
             type = ObjectSpawner.ObjectType.s100
         };
-
         _testQueue.Enqueue(lowTest);
+
+        TestData cubeTest = new TestData()
+        {
+            testName = "CubeTest",
+            testDescription = "A lot of cubes",
+            testDurationSeconds = 10,
+            gridSize = new Vector3Int(30, 30, 30),
+            type = ObjectSpawner.ObjectType.cube12
+        };
+        _testQueue.Enqueue(cubeTest);
 
         TestData lowWithALotOfObject = new TestData()
         {
             testName = "LotOfObjects",
             testDescription = "A LOT OF small spheres",
-            testDurationSeconds = 15,
+            testDurationSeconds = 10,
             gridSize = new Vector3Int(20, 20, 20),
             type = ObjectSpawner.ObjectType.s100
         };
-
         _testQueue.Enqueue(lowWithALotOfObject);
 
         TestData mediumTest = new TestData()
         {
             testName = "MediumTest",
             testDescription = "Medium test: 10,10,10 with 10k Spheres",
-            testDurationSeconds = 15,
+            testDurationSeconds = 10,
             gridSize = new Vector3Int(10, 10, 10),
             type = ObjectSpawner.ObjectType.s10k
         };
@@ -58,11 +66,10 @@ public class TestRunner : MonoBehaviour
         {
             testName = "HardcoreTest",
             testDescription = "Hardcore test: 20,10,10 with 100k Spheres",
-            testDurationSeconds = 15,
+            testDurationSeconds = 10,
             gridSize = new Vector3Int(20, 10, 10),
             type = ObjectSpawner.ObjectType.s100k
         };
-
         _testQueue.Enqueue(hardcoreTest);
 
 
@@ -88,7 +95,7 @@ public class TestRunner : MonoBehaviour
             return;
         }
 
-        LogExporter.ExportLogToExcel(_testResults);
+        LogExporter.ExportTestDataToExcel(_testResults);
 
         _testRunningText.text = "<color=green> Done testing!</color>";
         Debug.Log("<color=green> All tests are done! </color>");
@@ -97,7 +104,7 @@ public class TestRunner : MonoBehaviour
 
     private IEnumerator runTest(TestData pTestData)
     {
-        _objectSpawner.Clean();
+        _objectSpawner.CleanObjects();
         yield return null;
         Debug.Log("<color=yellow> Preparing new text... </color>");
 

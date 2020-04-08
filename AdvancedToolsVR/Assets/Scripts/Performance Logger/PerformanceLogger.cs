@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class PerformanceLogger : MonoBehaviour
 {
-    public float currentFPS { get; private set; } = 0;
+    public event EventHandler<EventArgs> NewFrame;
 
+    public bool isRecording { get; private set; } = false;
+    public float currentFPS { get; private set; } = 0;
     public float minFps { get; private set; } = 0;
     public float maxFps { get; private set; } = 0;
     public int totalFramesRecorded { get; private set; } = 0;
 
-
+    [Header("Updates per second")]
     [SerializeField] private int fpsUpdateRate = 4;
+
     private List<FrameInformation> _frameLog = new List<FrameInformation>();
-    public bool isRecording { get; private set; } = false;
     private float _timeRecording = 0;
 
     private float _timeBetweenUpdates = 0;
@@ -23,10 +25,7 @@ public class PerformanceLogger : MonoBehaviour
 
     private void Update()
     {
-        if (isRecording)
-        {
-            updateFPS();
-        }
+        if (isRecording) updateFPS();
     }
 
 
@@ -39,9 +38,11 @@ public class PerformanceLogger : MonoBehaviour
         _frameLog.Clear();
         minFps = float.MaxValue;
         maxFps = float.MinValue;
+
+        currentFPS = 0;
         totalFramesRecorded = 0;
-        _timeRecording = 0;
         _timeBetweenUpdates = 0;
+        _timeRecording = 0;
         _frameCount = 0;
 
         isRecording = true;
@@ -92,7 +93,7 @@ public class PerformanceLogger : MonoBehaviour
         ++_frameCount;
         ++totalFramesRecorded;
 
-        if (_timeBetweenUpdates > 1.0 / fpsUpdateRate)
+        if (_timeBetweenUpdates > 1.0f / fpsUpdateRate)
         {
             currentFPS = _frameCount / _timeBetweenUpdates;
             _frameCount = 0;
@@ -109,5 +110,7 @@ public class PerformanceLogger : MonoBehaviour
         if (currentFPS < minFps) minFps = currentFPS;
         if (currentFPS > maxFps) maxFps = currentFPS;
         _frameLog.Add(new FrameInformation(totalFramesRecorded, currentFPS, Time.deltaTime));
+
+        NewFrame?.Invoke(this, new EventArgs());
     }
 }

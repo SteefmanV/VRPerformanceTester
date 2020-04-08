@@ -19,10 +19,6 @@ public class MeshGenerator : MonoBehaviour
     public int xSize = 20;
     public int ySize = 20;
 
-    private void Start()
-    {
-        //    generateObject();
-    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -39,18 +35,9 @@ public class MeshGenerator : MonoBehaviour
 
     private void OnValidate()
     {
-        ;
-
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.delayCall += () =>
-        {
-            ClearObjects();
-        };
-
-        UnityEditor.EditorApplication.delayCall += () =>
-        {
-            generateObject();
-        };
+        UnityEditor.EditorApplication.delayCall += () => ClearObjects();
+        UnityEditor.EditorApplication.delayCall += () => generateObject();
 #endif
     }
 
@@ -107,14 +94,11 @@ public class MeshGenerator : MonoBehaviour
 
     private void ClearObjects()
     {
-
-        var tempList = transform.Cast<Transform>().ToList();
+        List<Transform> tempList = transform.Cast<Transform>().ToList();
 
         foreach (Transform trans in tempList)
         {
             DestroyImmediate(trans.gameObject);
         }
-
-
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Stores infomation about a frame
+/// Stores infomation about a recorded frame
 /// </summary>
 public struct FrameInformation
 {
