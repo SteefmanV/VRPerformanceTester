@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.65080994, g: 0.666729, b: 0.7075472, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.05
+  m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -647,13 +647,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22018928de2e1c4d9b226298412236a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fpsCounter: {fileID: 352038942}
   _isRecording: 0
   _currentFps: 0
   _minFps: 0
   _maxFps: 0
   _averageFps: 0
   _frameCount: 0
-  _fpsCounter: {fileID: 352038942}
 --- !u!114 &990481768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,6 +699,22 @@ MonoBehaviour:
   _currentRunningTest: 
   secondsUntilTestComplete: 0
   _testRunning: 0
+  _testQueue:
+  - {fileID: 11400000, guid: 57f5f282be76f634cb710cd9d2dba3d5, type: 2}
+  - {fileID: 11400000, guid: 9d53422d5282be8478fc4db8a47cd04c, type: 2}
+  - {fileID: 11400000, guid: c0ee360201767814f8e18aed1ddebf10, type: 2}
+  - {fileID: 11400000, guid: 75f10701a2cbe2a4ab3ce4c9ce8833b5, type: 2}
+  - {fileID: 11400000, guid: 75aa41ec7d31cf844a3f0060c604f097, type: 2}
+  - {fileID: 11400000, guid: e57bf252d5af38d41975ea28dea82238, type: 2}
+  - {fileID: 11400000, guid: 9d15c558a6947ff4d95ad29b86f5d695, type: 2}
+  - {fileID: 11400000, guid: 0e4eef71bf345224baada87b2a5d00e4, type: 2}
+  - {fileID: 11400000, guid: f910ed2a67335794dba6b29948ba50b4, type: 2}
+  - {fileID: 11400000, guid: 75412f077ea70ed4bb449c4e90e23680, type: 2}
+  - {fileID: 11400000, guid: ba59abfff84b4e74ab088b4bdfe1a787, type: 2}
+  - {fileID: 11400000, guid: 1eeb0d2d37330424fb7e9d7ff8542ec7, type: 2}
+  - {fileID: 11400000, guid: cf0202522ff8b824c910583e204a698e, type: 2}
+  - {fileID: 11400000, guid: 0adab3f027c233344acf63bc4b6c4e6e, type: 2}
+  - {fileID: 11400000, guid: 8f140d1036b08c7468786d41ffc97721, type: 2}
 --- !u!1 &1415523737
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,7 +988,7 @@ MonoBehaviour:
     type: 3}
   _sphere100k: {fileID: 2329420827841435335, guid: d7aacbc0011134d40a713eff38eb4135,
     type: 3}
-  _objectOffset: 10
+  _objectOffset: 5
 --- !u!4 &1651447734
 Transform:
   m_ObjectHideFlags: 0

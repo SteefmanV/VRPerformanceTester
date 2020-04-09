@@ -15,64 +15,13 @@ public class TestRunner : MonoBehaviour
     [SerializeField] private float secondsUntilTestComplete = 0;
     [SerializeField] private bool _testRunning;
 
-    private Queue<TestData> _testQueue = new Queue<TestData>();
+    public List<TestData> _testQueue = new List<TestData>();
     private List<TestData> _testResults = new List<TestData>();
 
     private int _totalTests = 0;
 
     void Start()
     {
-        TestData lowTest = new TestData()
-        {
-            testName = "SimpleTest",
-            testDescription = "Simple test with a few small objects",
-            testDurationSeconds = 10,
-            gridSize = new Vector3Int(10, 10, 10),
-            type = ObjectSpawner.ObjectType.s100
-        };
-        _testQueue.Enqueue(lowTest);
-
-        TestData cubeTest = new TestData()
-        {
-            testName = "CubeTest",
-            testDescription = "A lot of cubes",
-            testDurationSeconds = 10,
-            gridSize = new Vector3Int(30, 30, 30),
-            type = ObjectSpawner.ObjectType.cube12
-        };
-        _testQueue.Enqueue(cubeTest);
-
-        TestData lowWithALotOfObject = new TestData()
-        {
-            testName = "LotOfObjects",
-            testDescription = "A LOT OF small spheres",
-            testDurationSeconds = 10,
-            gridSize = new Vector3Int(20, 20, 20),
-            type = ObjectSpawner.ObjectType.s100
-        };
-        _testQueue.Enqueue(lowWithALotOfObject);
-
-        TestData mediumTest = new TestData()
-        {
-            testName = "MediumTest",
-            testDescription = "Medium test: 10,10,10 with 10k Spheres",
-            testDurationSeconds = 10,
-            gridSize = new Vector3Int(10, 10, 10),
-            type = ObjectSpawner.ObjectType.s10k
-        };
-        _testQueue.Enqueue(mediumTest);
-
-        TestData hardcoreTest = new TestData()
-        {
-            testName = "HardcoreTest",
-            testDescription = "Hardcore test: 20,10,10 with 100k Spheres",
-            testDurationSeconds = 10,
-            gridSize = new Vector3Int(20, 10, 10),
-            type = ObjectSpawner.ObjectType.s100k
-        };
-        _testQueue.Enqueue(hardcoreTest);
-
-
         _totalTests = _testQueue.Count;
         RunNextTest();
     }
@@ -89,7 +38,9 @@ public class TestRunner : MonoBehaviour
 
         if (_testQueue.Count > 0)
         {
-            StartCoroutine(runTest(_testQueue.Dequeue()));
+            TestData nextTest = _testQueue[0];
+            StartCoroutine(runTest(nextTest));
+            _testQueue.Remove(nextTest);
             _testRunningText.text = "<color=orange>Test Running - " + (_totalTests - _testQueue.Count) + " / " + _totalTests + "</color>";
             Debug.Log("<color=yellow>" + _testQueue.Count + " more tests in queue </color>");
             return;
