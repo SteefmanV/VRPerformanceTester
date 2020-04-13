@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testName: ToughTest1
   testDescription: 2.7 Mil tris, 2706 small objects
-  testDurationSeconds: 10
+  testDurationSeconds: 30
   type: 2
   gridSize: {x: 13, y: 13, z: 16}

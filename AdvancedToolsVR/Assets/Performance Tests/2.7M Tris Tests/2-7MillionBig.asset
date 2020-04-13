@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testName: ToughTest3
   testDescription: 2.7 Mil tris, 27 Big Objects
-  testDurationSeconds: 10
+  testDurationSeconds: 30
   type: 4
   gridSize: {x: 3, y: 3, z: 3}

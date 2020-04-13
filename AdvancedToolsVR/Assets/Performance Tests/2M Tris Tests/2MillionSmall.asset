@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testName: MediumTest2
   testDescription: 2 Mil tris, 2000 Small Objects
-  testDurationSeconds: 10
+  testDurationSeconds: 30
   type: 2
   gridSize: {x: 20, y: 10, z: 10}

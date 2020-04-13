@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testName: AverageTest1
   testDescription: 1.5 Mil Tris, 15.000 Really SmallObjects
-  testDurationSeconds: 10
+  testDurationSeconds: 30
   type: 1
   gridSize: {x: 30, y: 25, z: 20}
