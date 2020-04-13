@@ -16,4 +16,15 @@ public class TestData : ScriptableObject
     public List<FrameInformation> frameData;
     public int trisCount { get; set; }
     public int objectCount { get; set; }
+
+    public float GetAverageFPS()
+    {
+        float totalFPS = 0;
+        foreach(FrameInformation frameInfo in frameData)
+        {
+            totalFPS += frameInfo.frameFPS;
+        }
+
+        return totalFPS / frameData.Count;
+    }
 }

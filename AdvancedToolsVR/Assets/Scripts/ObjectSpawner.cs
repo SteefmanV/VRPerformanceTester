@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
 {
-    public enum ObjectType { cube12, s100, s1k, s10k, s100k }
+    public enum ObjectType { cube12, s100, s1k, s10k, s50k, s100k }
 
     [Header("Object Prefabs")]
     [SerializeField] private GameObject _cube12 = null;
     [SerializeField] private GameObject _sphere100 = null;
     [SerializeField] private GameObject _sphere1k = null;
     [SerializeField] private GameObject _sphere10k = null;
+    [SerializeField] private GameObject _sphere50k = null;
     [SerializeField] private GameObject _sphere100k = null;
 
     [Header("Spawner Settings:")]
@@ -52,6 +53,9 @@ public class ObjectSpawner : MonoBehaviour
                 break;
             case ObjectType.s10k:
                 objectType = _sphere10k;
+                break;
+            case ObjectType.s50k:
+                objectType = _sphere50k;
                 break;
             case ObjectType.s100k:
                 objectType = _sphere100k;

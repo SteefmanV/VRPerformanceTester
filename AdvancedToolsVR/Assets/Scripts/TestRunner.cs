@@ -22,6 +22,7 @@ public class TestRunner : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = 300; // Makes framerate go "unlimited"
         _totalTests = _testQueue.Count;
         RunNextTest();
     }
@@ -29,6 +30,7 @@ public class TestRunner : MonoBehaviour
     private void Update()
     {
         if (_testRunning) secondsUntilTestComplete -= Time.deltaTime;
+        QualitySettings.vSyncCount = 0;
     }
 
 
@@ -66,7 +68,7 @@ public class TestRunner : MonoBehaviour
         secondsUntilTestComplete += pTestData.testDurationSeconds;
         _currentRunningTest = pTestData.testDescription;
 
-        yield return new WaitForSeconds(10); // Give it some extra time to load
+        yield return new WaitForSeconds(2); // Give it some extra time to load
         Debug.Log("<color=yellow> Next test: " + pTestData.testDescription +"</color>");
 
         // Recording test

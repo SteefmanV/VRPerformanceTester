@@ -1,10 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Data;
-using System.ComponentModel;
+﻿using ExcelLibrary;
+using System;
 using System.Collections.Generic;
-using ExcelLibrary;
-using UnityEngine;
+using System.Data;
 
 
 public static class LogExporter
@@ -16,9 +13,11 @@ public static class LogExporter
     {
         DataSet dataSet = new DataSet("Test Results");
 
+        dataSet.Tables.Add(createTestSummarySheet(pLog));
+
         foreach (TestData data in pLog)
         {
-            DataTable dataTable = logToTable(data);
+            DataTable dataTable = logTestInfoToSheet(data);
             dataSet.Tables.Add(dataTable);
         }
 
@@ -26,8 +25,8 @@ public static class LogExporter
         DataSetHelper.CreateWorkbook(fileName, dataSet);
     }
 
-
-    private static DataTable logToTable(TestData pData)
+    
+    private static DataTable logTestInfoToSheet(TestData pData)
     {
         DataTable table = new DataTable(pData.testName);
         table.Columns.Add("Frame Number", typeof(int));
@@ -70,5 +69,36 @@ public static class LogExporter
         row["Additonal data"] = col1;
         row["values"] = col2;
         Table.Rows.Add(row);
+    }
+
+    private static DataTable createTestSummarySheet(List<TestData> pLog)
+    {
+        DataTable table = new DataTable("Test Summary Report");
+
+        table.Columns.Add("Test Name", typeof(string));
+        table.Columns.Add("Average Frame Rate", typeof(decimal));
+        table.Columns.Add("Triangles", typeof(int));
+        table.Columns.Add("Objects", typeof(int));
+        table.Columns.Add("Object type", typeof(string));
+        table.Columns.Add("Grid size", typeof(string));
+        table.Columns.Add("Tris / Object", typeof(string));
+        table.Columns.Add("Test Duration (s)", typeof(string));
+
+
+        foreach (TestData data in pLog)
+        {
+            DataRow row = table.NewRow();
+            row["Test Name"] = data.name;
+            row["Average Frame Rate"] = data.GetAverageFPS();
+            row["Triangles"] = data.trisCount;
+            row["Objects"] = data.objectCount;
+            row["Tris / Object"] = (data.trisCount / data.objectCount).ToString();
+            row["Test Duration (s)"] = data.testDurationSeconds;
+            row["Grid size"] = data.gridSize;
+            row["Object type"] = data.type.ToString();
+            table.Rows.Add(row);
+        }
+
+        return table;
     }
 }
