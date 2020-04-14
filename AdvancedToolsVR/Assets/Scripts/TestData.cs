@@ -14,8 +14,20 @@ public class TestData : ScriptableObject
 
     // This will be automatically generates 
     public List<FrameInformation> frameData;
-    public int trisCount { get; set; }
-    public int objectCount { get; set; }
+    public long trisCount { get; set; } = 0;
+    public int objectCount { get; set; } = 0;
+
+    public TestData(TestData pCopy)
+    {
+        testName = pCopy.testName;
+        testDescription = pCopy.testDescription;
+        testDurationSeconds = pCopy.testDurationSeconds;
+        type = pCopy.type;
+        gridSize = pCopy.gridSize;
+        frameData = pCopy.frameData;
+        trisCount = pCopy.trisCount;
+        objectCount = pCopy.objectCount;
+    }
 
     public float GetAverageFPS()
     {

@@ -55,32 +55,34 @@ public class TestRunner : MonoBehaviour
     }
 
 
-    private IEnumerator runTest(TestData pTestData)
+    private IEnumerator runTest(TestData pData)
     {
+        TestData testData = new TestData(pData);
         _objectSpawner.CleanObjects();
         yield return null;
+        yield return new WaitForSeconds(1);
         Debug.Log("<color=yellow> Preparing new text... </color>");
 
-        yield return new WaitUntil(() => _objectSpawner.GenerateObjectGrid(pTestData.gridSize, pTestData.type)); // Generate object grid
+        yield return new WaitUntil(() => _objectSpawner.GenerateObjectGrid(testData.gridSize, testData.type)); // Generate object grid
 
-        pTestData.trisCount = _objectSpawner.GetTrisCount();
-        pTestData.objectCount = pTestData.gridSize.x * pTestData.gridSize.y * pTestData.gridSize.z;
-        secondsUntilTestComplete += pTestData.testDurationSeconds;
-        _currentRunningTest = pTestData.testDescription;
+        secondsUntilTestComplete = testData.testDurationSeconds;
+        _currentRunningTest = testData.testDescription;
+        testData.objectCount = testData.gridSize.x * testData.gridSize.y * testData.gridSize.z;
+        testData.trisCount = _objectSpawner.GetTrisCount();
 
-        yield return new WaitForSeconds(2); // Give it some extra time to load
-        Debug.Log("<color=yellow> Next test: " + pTestData.testDescription +"</color>");
+        yield return new WaitForSeconds(30); // Give it some extra time to load
+        Debug.Log("<color=yellow> Next test: " + testData.testDescription +"</color>");
 
         // Recording test
         _testRunning = true;
         _performanceLogger.StartRecording();
-        yield return new WaitForSeconds(pTestData.testDurationSeconds);
+        yield return new WaitForSeconds(testData.testDurationSeconds);
         _performanceLogger.StopRecording();
         _testRunning = false;
 
         // Save test results
-        pTestData.frameData = _performanceLogger.getFpsLog();
-        _testResults.Add(pTestData);
+        testData.frameData = _performanceLogger.getFpsLog();
+        _testResults.Add(testData);
 
         RunNextTest();
     }

@@ -62,7 +62,7 @@ public class LoggerInspector : MonoBehaviour
         if (_fpsCounter == null) return;
 
         string fpsString;
-        if (pCurrentFps > 90) fpsString = "<color=green>" + pCurrentFps.ToString("0");
+        if (pCurrentFps > 85) fpsString = "<color=green>" + pCurrentFps.ToString("0");
         else if (pCurrentFps > 60) fpsString = "<color=orange>" + pCurrentFps.ToString("0");
         else fpsString = "<color=red>" + pCurrentFps.ToString("0");
 

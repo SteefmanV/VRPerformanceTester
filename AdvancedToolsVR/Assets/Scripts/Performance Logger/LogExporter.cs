@@ -88,7 +88,7 @@ public static class LogExporter
         foreach (TestData data in pLog)
         {
             DataRow row = table.NewRow();
-            row["Test Name"] = data.name;
+            row["Test Name"] = data.testName;
             row["Average Frame Rate"] = data.GetAverageFPS();
             row["Triangles"] = data.trisCount;
             row["Objects"] = data.objectCount;

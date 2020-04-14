@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ public class ObjectSpawner : MonoBehaviour
 
     public bool GenerateObjectGrid(Vector3Int pGridSize, ObjectType pType)
     {
+        Debug.Log("Generating grid...");
         Vector3 centerOffset = new Vector3(pGridSize.x, pGridSize.y, pGridSize.z) * _objectOffset  * 0.5f;
 
         for (int x = 0; x < pGridSize.x; ++x)
@@ -33,6 +35,7 @@ public class ObjectSpawner : MonoBehaviour
             }
         }
 
+        Debug.Log("Done generating grid");
         return true;
     }
 
@@ -75,14 +78,14 @@ public class ObjectSpawner : MonoBehaviour
     }
 
 
-    public int GetTrisCount()
+    public long GetTrisCount()
     {
-        int trisCount = 0;
-
-        MeshFilter[] meshFilters = FindObjectsOfType<MeshFilter>();
-        foreach (MeshFilter meshFilter in meshFilters)
+        long trisCount = 0;
+        MeshFilter[] filters = FindObjectsOfType<MeshFilter>();
+        foreach(MeshFilter filter in filters)
         {
-            trisCount += meshFilter.mesh.triangles.Length / 3; // Devide by 3 because 1 triangle is made up of 3 ints
+            if (filter.mesh.triangles.Length < 3) continue;
+            trisCount += filter.mesh.triangles.Length / 3;
         }
 
         return trisCount;
