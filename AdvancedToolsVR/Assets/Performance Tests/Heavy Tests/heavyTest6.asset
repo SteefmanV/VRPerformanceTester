@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testName: ToughTest-6
   testDescription: Tough test
-  testDurationSeconds: 30
+  testDurationSeconds: 5
   type: 5
   gridSize: {x: 5, y: 5, z: 9}

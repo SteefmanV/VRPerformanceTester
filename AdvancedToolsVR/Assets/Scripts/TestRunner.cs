@@ -22,7 +22,6 @@ public class TestRunner : MonoBehaviour
 
     void Start()
     {
-        Application.targetFrameRate = 300; // Makes framerate go "unlimited"
         _totalTests = _testQueue.Count;
         RunNextTest();
     }
@@ -31,6 +30,7 @@ public class TestRunner : MonoBehaviour
     {
         if (_testRunning) secondsUntilTestComplete -= Time.deltaTime;
         QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 300;
     }
 
 
@@ -70,7 +70,7 @@ public class TestRunner : MonoBehaviour
         testData.objectCount = testData.gridSize.x * testData.gridSize.y * testData.gridSize.z;
         testData.trisCount = _objectSpawner.GetTrisCount();
 
-        yield return new WaitForSeconds(30); // Give it some extra time to load
+        yield return new WaitForSeconds(5); // Give it some extra time to load
         Debug.Log("<color=yellow> Next test: " + testData.testDescription +"</color>");
 
         // Recording test
