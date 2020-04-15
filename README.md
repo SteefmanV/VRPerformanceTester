@@ -1,29 +1,29 @@
-# README #
+# Description #
+This project is used as a tool to measure the performance of different object setups in Virtual Reality. 
+Tests are done by spawning different grids of different mesh types and measuring their frame/second performance over time. 
+The goal of the tests is to analyze the performance of the number of meshes (draw calls) and the number of triangles in a mesh. 
 
-This README would normally document whatever steps are necessary to get your application up and running.
+# Create a new Test #
+1. To create a test right-click in the folder where you want to place the test
+2. Click in the top of the popup on PerformanceTest
+3. In the new PerformanceTest object there are different parameters to setup:
+ - Test Name - choose a unique name for your test
+ - Test Description - A description of the test
+ - Test Duration Seconds - number of seconds to perform the test
+ - Type - the mesh size
+ - Grid Size - The grid size of the objects to test. x15, y15, z15 will spawn a 15x15x15 grid of the mesh type selected above. 
 
-### What is this repository for? ###
+# Add Tests #
+After creating a test as explained above, the test can be added to the test queue. 
+In the main "Benchmark" scene there's the object "Test Runner". In the TestRunner component inside of the object, multiple tests can be added by placing them in the TestQueue list. 
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+# Performing a test sequence #
+When the application is started the TestRunner will iterate through the TestQueue and will perform the test of each test in there. When the test is done an Excel report will be exported to the main folder of the application. (when the test is done inside Unity it will be exported in the project folder). 
 
-### How do I get set up? ###
+The Excel report contains a summary of all the tests and an in-depth report of each separate test. 
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+Tip to get the best reliable results: make a build of the project and run it without any other applications running in the background (including Unity). 
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+# Support #
+Unity Version: 2019.3.5f1
+The project is only tested with the Oculus Rift. But with small adjustments it should also be usable with other Oculus devices and the HTC Vive.
