@@ -12,6 +12,8 @@ The goal of the tests is to analyze the performance of the number of meshes (dra
  - Test Duration Seconds - number of seconds to perform the test
  - Type - the mesh size
  - Grid Size - The grid size of the objects to test. x15, y15, z15 will spawn a 15x15x15 grid of the mesh type selected above. 
+ 
+ ![](Images/ExampleTest1.PNG)
 
 # Add Tests #
 After creating a test as explained above, the test can be added to the test queue. 
@@ -21,6 +23,9 @@ In the main "Benchmark" scene there's the object "Test Runner". In the TestRunne
 When the application is started the TestRunner will iterate through the TestQueue and will perform the test of each test in there. When the test is done an Excel report will be exported to the main folder of the application. (when the test is done inside Unity it will be exported in the project folder). 
 
 The Excel report contains a summary of all the tests and an in-depth report of each separate test. 
+ 
+ ![](Images/ExampleTestResult.PNG)
+
 
 Tip to get the best reliable results: make a build of the project and run it without any other applications running in the background (including Unity). 
 
