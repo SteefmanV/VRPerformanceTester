@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.advancedtoolsvr.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "G:\\Files\\School\\Year2\\Q3\\Advanced Tools\\AdvancedToolsVR\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "AdvancedToolsVR [Testing]"
+        }
+      }
+    }
+  ]
+}

@@ -70,7 +70,7 @@ public class TestRunner : MonoBehaviour
         testData.objectCount = testData.gridSize.x * testData.gridSize.y * testData.gridSize.z;
         testData.trisCount = _objectSpawner.GetTrisCount();
 
-        yield return new WaitForSeconds(5); // Give it some extra time to load
+        yield return new WaitForSeconds(30); // Give it some extra time to load
         Debug.Log("<color=yellow> Next test: " + testData.testDescription +"</color>");
 
         // Recording test
