@@ -14,7 +14,7 @@ public class PerformanceLogger : MonoBehaviour
     public int totalFramesRecorded { get; private set; } = 0;
 
     [Header("Updates per second")]
-    [SerializeField] private int fpsUpdateRate = 4;
+    [SerializeField] private int _fpsUpdateRate = 4;
 
     private List<FrameInformation> _frameLog = new List<FrameInformation>();
     private float _timeRecording = 0;
@@ -93,11 +93,11 @@ public class PerformanceLogger : MonoBehaviour
         ++_frameCount;
         ++totalFramesRecorded;
 
-        if (_timeBetweenUpdates > 1.0f / fpsUpdateRate)
+        if (_timeBetweenUpdates > 1.0f / _fpsUpdateRate)
         {
             currentFPS = _frameCount / _timeBetweenUpdates;
             _frameCount = 0;
-            _timeBetweenUpdates -= 1.0f / fpsUpdateRate; // avoids skipping a frame
+            _timeBetweenUpdates -= 1.0f / _fpsUpdateRate; // avoids skipping a frame
 
             logFps();
         }

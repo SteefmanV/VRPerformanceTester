@@ -12,10 +12,15 @@ public class TestData : ScriptableObject
     public ObjectSpawner.ObjectType type;
     public Vector3Int gridSize;
 
-    // This will be automatically generates 
-    public List<FrameInformation> frameData;
+    // This will be automatically generated 
+    public List<FrameInformation> frameData = new List<FrameInformation>();
     public long trisCount { get; set; } = 0;
-    public int objectCount { get; set; } = 0;
+
+    public int objectCount
+    {
+        get { return gridSize.x * gridSize.y * gridSize.z; }
+    }
+
 
     public TestData(TestData pCopy)
     {
@@ -26,9 +31,12 @@ public class TestData : ScriptableObject
         gridSize = pCopy.gridSize;
         frameData = pCopy.frameData;
         trisCount = pCopy.trisCount;
-        objectCount = pCopy.objectCount;
     }
 
+
+    /// <summary>
+    /// Return average FPS of all frameData stored
+    /// </summary>
     public float GetAverageFPS()
     {
         float totalFPS = 0;

@@ -15,22 +15,17 @@ public class TestRunner : MonoBehaviour
 
     private int _totalTests = 0;
 
+
     void Start()
     {
         _totalTests = _testQueue.Count;
         RunNextTest();
     }
 
-    private void Update()
-    {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 300;
-    }
-
 
     private void RunNextTest()
     {
-        Debug.Log("<color=green> Test Started running!</color>");
+        log("Test Started running!");
 
         if (_testQueue.Count > 0)
         {
@@ -39,31 +34,31 @@ public class TestRunner : MonoBehaviour
             _testQueue.Remove(nextTest);
 
             _testRunningText.text = "<color=orange>Test Running - " + (_totalTests - _testQueue.Count) + " / " + _totalTests + "</color>";
-            Debug.Log("<color=yellow>" + _testQueue.Count + " more tests in queue </color>");
-            return;
+            log(_testQueue.Count + " more tests in queue", "yellow");
         }
-
-        LogExporter.ExportTestDataToExcel(_testResults);
-
-        _testRunningText.text = "<color=green> Done testing!</color>";
-        Debug.Log("<color=green> All tests are done! </color>");
+        else
+        {
+            LogExporter.ExportTestDataToExcel(_testResults);
+            _testRunningText.text = "<color=green> Done testing!</color>";
+            log("All tests are done!");
+        }
     }
 
 
     private IEnumerator runTest(TestData pData)
     {
+        log("Preparing new text...", "yellow");
+
         TestData testData = new TestData(pData);
         _objectSpawner.CleanObjects();
-        Debug.Log("<color=yellow> Preparing new text... </color>");
 
         yield return new WaitForSeconds(1);
         yield return new WaitUntil(() => _objectSpawner.GenerateObjectGrid(testData.gridSize, testData.type)); // Generate object grid
 
-        testData.objectCount = testData.gridSize.x * testData.gridSize.y * testData.gridSize.z;
         testData.trisCount = _objectSpawner.GetTrisCount();
 
-        yield return new WaitForSeconds(5); // Give it some extra time to load
-        Debug.Log("<color=yellow> Next test: " + testData.testDescription +"</color>");
+        yield return new WaitForSeconds(5); // Give it some extra time to load 
+        log("Next test: " + testData.testDescription, "yellow");
 
         // Recording test
         _performanceLogger.StartRecording();
@@ -75,5 +70,11 @@ public class TestRunner : MonoBehaviour
         _testResults.Add(testData);
 
         RunNextTest();
+    }
+
+
+    private void log(string pMessage, string pColor = "green")
+    {
+        Debug.Log("<color=" + pColor + ">" + pMessage + "</color>");
     }
 }

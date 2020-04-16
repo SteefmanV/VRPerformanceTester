@@ -19,6 +19,9 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] private float _objectOffset = 10;
 
 
+    /// <summary>
+    /// Generates a grid of objects
+    /// </summary>
     public bool GenerateObjectGrid(Vector3Int pGridSize, ObjectType pType)
     {
         Debug.Log("Generating grid...");
@@ -34,8 +37,6 @@ public class ObjectSpawner : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log("Done generating grid");
         return true;
     }
 
@@ -69,6 +70,9 @@ public class ObjectSpawner : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Deletes every spawned object
+    /// </summary>
     public void CleanObjects()
     {
         foreach (Transform trans in transform)
@@ -78,6 +82,9 @@ public class ObjectSpawner : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Return the triangle count in the scene
+    /// </summary>
     public long GetTrisCount()
     {
         long trisCount = 0;

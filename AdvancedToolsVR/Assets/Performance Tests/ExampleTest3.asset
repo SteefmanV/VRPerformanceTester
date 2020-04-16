@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30e29a9c5d8a8046b17548c1c26d2ad, type: 3}
   m_Name: ExampleTest3
   m_EditorClassIdentifier: 
-  testName: Example1
+  testName: Example3
   testDescription: This is a simple 5 second example test with a 20x20x20 grid of
     spheres with 0.1k trangles
   testDurationSeconds: 10

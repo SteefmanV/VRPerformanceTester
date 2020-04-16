@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ExampleTest1
   m_EditorClassIdentifier: 
   testName: Example1
-  testDescription: This is a simple 30 second example test with a 5x5x5 grid of spheres
-    with 10k trangles
+  testDescription: This is a 30 second example test with a 5x5x5 grid of spheres
+    with 10k triangles each
   testDurationSeconds: 30
   type: 3
   gridSize: {x: 5, y: 5, z: 5}

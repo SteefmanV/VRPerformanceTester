@@ -7,15 +7,15 @@ using System.Data;
 public static class LogExporter
 {
     /// <summary>
-    /// Export multiple test to an Excel sheet, each test gets its own worksheet
+    /// Export multiple tests to an Excel sheet, each test gets its own worksheet and a summary of all tests is created
     /// </summary>
-    public static void ExportTestDataToExcel(List<TestData> pLog)
+    public static void ExportTestDataToExcel(List<TestData> pTests)
     {
         DataSet dataSet = new DataSet("Test Results");
 
-        dataSet.Tables.Add(createTestSummarySheet(pLog));
+        dataSet.Tables.Add(createTestSummarySheet(pTests));
 
-        foreach (TestData data in pLog)
+        foreach (TestData data in pTests)
         {
             DataTable dataTable = logTestInfoToSheet(data);
             dataSet.Tables.Add(dataTable);
@@ -58,8 +58,8 @@ public static class LogExporter
     }
 
 
-     /* Sorry for this lazy hack... 
-     * The Excel Library doesn't support DBNull so I've added default values. */
+
+     /* The Excel Library doesn't support DBNull so I've added default values. */
     private static void addDescriptionRow(DataTable Table, string col1, string col2)
     {
         DataRow row = Table.NewRow();
